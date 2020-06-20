@@ -1,4 +1,6 @@
-const OPERATORS = /[^0-9]/;
+//const OPERATORS = /[^0-9]/;
+//const OPERATORS = /[+*\/-]/;// /g;    g  for use with matchAll  
+const OPERATORS = /[×÷+*\/-]/;
 
 function makeBtnIds(){
 
@@ -12,18 +14,15 @@ function makeBtnIds(){
 
 const DISP = document.querySelector('#disp');
 
-makeBtnIds();
-/*
-let dispNum = [];
-let nmbrBtns = document.querySelectorAll('.num');
-nmbrBtns.forEach(btn => btn.addEventListener('click', event => {
-  dispNum.push(event.target.textContent);
-  //dspN=dispNum.join('');
-  DISP.textContent = dispNum.join(''); 
-}));
-*/
+const Decimal = document.querySelector('#decimal');
 
-function putOnDisplay(){
+makeBtnIds();
+
+
+//clear display after opertor button clicked (but keep data)
+//allow multiple operations before = 
+
+function putOnDisplay(){ 
 
   let firstNum;
   let secondNum;
@@ -35,48 +34,49 @@ function putOnDisplay(){
   dispItems.push(event.target.textContent);
   DISP.textContent = dispItems.join('');*/
 
-   if (event.target.textContent === 'C') {  //only displays C, why did this work outside a function?
+   if (event.target.textContent === 'C') {  
      
-      
       dispItems = ['0'];
    
-    } else if (dispItems[0] == 0 && dispItems[1] !== '.') {
+    } else if (dispItems[0] == 0 && dispItems[1] !== '.') {  // to have only one leading 0
         dispItems.shift();
       
-    } else if (event.target.id === 'backspace') { //if only works once, leaves a blank on disp, while hangs
-        dispItems.pop();
-        console.log(dispItems); //backspace char is inserted into dispItems if other keys are pressed after
-        DISP.textContent = dispItems.join('');
+    } /*else if (event.target.textContent.match(OPERATORS) && dispItems[0]=== null) {  //doesn't work, because multiply sign not in OPERATORS
+      dispItems = ['0'];  */
+      //dispItems.shift(); shift and pop just get rid of initial 0
+      // doesn't work if first button clicked is + , either
+      //dispItems = [''] Uncaught TypeError: can't access property "toString", arrStr.match(...) is null
+  //}    
+    else if (event.target.textContent === '.'){  // ok
+      Decimal.disabled = true;  //disabled button, also changes colour to light grey
+    } 
 
-      } else if (event.target.textContent === '=') {
+
+    else if(event.target.textContent.match(OPERATORS)) {
+      Decimal.disabled = false;
+    }
+    /*else if (dispItems[0].toString().match(OPERATORS)) { //dispItems undefined here
+      console.log(dispItems[0].toString());
+      //dispItems[0] = '';
+    } */
+   
+   
+   /*else if (event.target.textContent === '˿') { //if only works once, leaves a blank on disp, while hangs
+      //dispItems = backspace(dispItems);  
+      //console.log([...dispItems]);
+      dispItems.pop();
+      //dispItems = [...dispItems].shift();//leaves only one digit
+        //dispItems[dispItems.indexOf('˿')] = '';
+        console.log('dispItems after pop' + dispItems); // no backspace char
+        //backspace char is inserted into dispItems if other keys are pressed after
+        //DISP.textContent = dispItems;//stops = from calling functions   //even with this block commented out, backspace still displays
+
+      } */ else if (event.target.textContent === '=') {
         
         splitAtSign(dispItems);
 
-        /*let sign = dispItems.toString().match(OPERATORS);
-          //let sign = dispItems.toString().match(OPERATORS);
-          firstNum = dispItems.slice(0, dispItems.indexOf(sign)).toString();//
-          secondNum = dispItems.slice(dispItems.indexOf(sign), dispItems.length+1).toString(); //last number of arr
-          console.log(dispItems.toString().indexOf(sign));//-1
-          console.log(`firstNum = ${firstNum}`);
-          console.log(`secondNum = ${secondNum}`);*/
           console.log(splitAtSign(dispItems));
-/*
-          switch (splitAtSign(dispItems.sign)) {
-            case "+":
-              dispItems = operate(add, splitAtSign(dispItems).num1, splitAtSign(dispItems).num2);
-              console.log(dispItems);
-              DISP.textContent = dispItems;
-              break;
 
-              case  "-":
-                dispItems = operate(subtract, splitAtSign(dispItems).num1, splitAtSign(dispItems).num2);
-                console.log(dispItems);
-                DISP.textContent = dispItems;
-                break;
-          }    
-      */          
-
-//if displays result, then Uncaught TypeError: dispItems.push is not a function, switch just error
         if (splitAtSign(dispItems).sign == '+') {
            dispItems = operate(add, splitAtSign(dispItems).num1, splitAtSign(dispItems).num2); 
            console.log(dispItems);
@@ -96,15 +96,33 @@ function putOnDisplay(){
             console.log(dispItems);
           }
         }
-      //dispItems.splice(dispItems.indexOf('&#767'),1); allows only 1 num at a time
+      //code for backspace originally here
       
       if (event.target.textContent != 'C') {
-        if (typeof dispItems != 'number') {
-          dispItems.push(event.target.textContent); //After = "dispItems.push not a function" because dispItems becomes a number after splitAtSign
-          console.log(dispItems);
-          DISP.textContent = dispItems.join('');
-        } else {
-          DISP.textContent = dispItems
+
+        /*if (dispItems.join('').match(OPERATORS)) {
+          dispItems = ['0'];
+        }*/
+
+
+         if (typeof dispItems != 'number') { //number only after = button is clicked
+
+          /*if (dispItems[0].match(OPERATORS)){ //sign as first button click appears only once 
+            //above if -> Uncaught TypeError: can't access property "match", dispItems[0] is undefined
+            dispItems = ['0']; // attempt to not display signs as first item
+          } else { */
+          if (dispItems[0] == undefined && event.target.textContent.match(OPERATORS)) {  
+            dispItems[0] = '0';
+            DISP.textContent = '0';
+          } else {
+
+            dispItems.push(event.target.textContent); //After = "dispItems.push not a function" because dispItems becomes a number after splitAtSign
+            console.log(dispItems);
+            DISP.textContent = dispItems.join('');
+          }
+
+        } else {  
+          DISP.textContent = dispItems;
         }  
 
       }  else {
@@ -112,31 +130,24 @@ function putOnDisplay(){
         DISP.textContent = dispItems;
       }
      }
-    //if textContent == '+', store everything before + in a variable
-    //slice(0, indexOf('+)) gets dispItems before +, slice(indexOf('+'), dispItems.length-1) after
   
-  //}
   ));
 }
 
 putOnDisplay();
 
-function splitAtSign(arr) {
+function splitAtSign(arr) {  //dynamically allow more nums OR just have multiple calls to func
+  //OR just have multiple calls to func BUT that will not allow order of operations
 
   let arrStr = arr.join('');
   let sign = arrStr.match(OPERATORS).toString();
   let num1 = Number(arr.slice(0, arr.indexOf(sign)).join(''));
-  console.log(arr.slice(0, arr.indexOf(sign)).join('')); 
-  console.log(arrStr.match(OPERATORS).toString());
-  console.log(arr.indexOf(sign));
   let num2 = Number(arr.slice(arr.indexOf(sign)+1, arr.length).join(''));
-  console.log(num1);
-  console.log(num2);
-  //let sign = arrStr.match(OPERATORS);
+ 
   return {'num1': num1, 'num2': num2, 'sign': sign};
 }
 
-function add(a,b){
+function add(a,b){ //allow 2 + args
     return a+b;
 }
 
@@ -170,3 +181,48 @@ function clear(dispItems) {
   DISP.textContent = dispItems;
   return dispItems;
 }
+
+function backspace(dispItems) {
+  [...dispItems].pop();//removes last digit, but adds backspace
+  //dispItems[dispItems.indexOf('˿')] = '';
+  console.log(dispItems);
+  return dispItems;
+}
+
+//originally at line 104, after if statements with calls to operate()
+
+//dispItems.splice(dispItems.indexOf('&#767'),1); allows only 1 num at a time
+      /*  //This EXTRA CREDIT - do it later
+      if (event.target.textContent === '˿') { //if only works once, leaves a blank on disp, while hangs
+        //dispItems = backspace(dispItems);  
+        //console.log([...dispItems]);
+        //DISP.textContent.indexOf('˿').style.display = 'none';//seems to do nothing here
+        //event.target.style.display = 'none';// get rid of backspace button
+        dispItems.pop();
+        dispItems.indexOf('˿').style.display = 'none';//nothing happens until another key is pushed, then works
+        //DISP.textContent.indexOf('˿').style.display = 'none';//nothing happens until another key is pushed, then works
+        //dispItems = [...dispItems].shift();//leaves only one digit
+          //dispItems[dispItems.indexOf('˿')] = '';
+          console.log('dispItems after pop' + dispItems); // no backspace char
+          //backspace char is inserted into dispItems if other keys are pressed after
+          //DISP.textContent = dispItems;//stops = from calling functions   //even with this block commented out, backspace still displays
+      }
+*/
+
+/*
+          switch (splitAtSign(dispItems.sign)) {
+            case "+":
+              dispItems = operate(add, splitAtSign(dispItems).num1, splitAtSign(dispItems).num2);
+              console.log(dispItems);
+              DISP.textContent = dispItems;
+              break;
+
+              case  "-":
+                dispItems = operate(subtract, splitAtSign(dispItems).num1, splitAtSign(dispItems).num2);
+                console.log(dispItems);
+                DISP.textContent = dispItems;
+                break;
+          }    
+         */     
+
+//if displays result, then Uncaught TypeError: dispItems.push is not a function, switch just error
