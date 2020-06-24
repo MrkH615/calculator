@@ -22,6 +22,8 @@ makeBtnIds();
 //clear display after opertor button clicked (but keep data)
 //allow multiple operations before = 
 
+
+//function putOnDisplay(dispItems = ['0'])
 function putOnDisplay(){ 
 
   let firstNum;
@@ -95,6 +97,7 @@ function putOnDisplay(){
             dispItems = operate(divide, splitAtSign(dispItems).num1, splitAtSign(dispItems).num2); 
             console.log(dispItems);
           }
+          //putOnDisplay(dispItems); // clears display, start from 0
         }
       //code for backspace originally here
       
