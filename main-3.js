@@ -24,9 +24,7 @@ function putOnDisplay(){
 //console.log(event.target.textContent);
 
         if(event.target.className !== 'correct') {
-           /*if (dispItems[0] === '0' && dispItems[1] !== '.') {
-               dispItems.shift(); // I want no leading 0 w/o decimal  BUT removes leading 0 in front of decimal -- works in jsFiddle
-           }*/
+          
            if (event.target.textContent === '.') {
                Decimal.disabled = true;
            } 
@@ -41,13 +39,10 @@ function putOnDisplay(){
         }  else if (event.target.textContent === 'C') {
             dispItems = ['0'];
             DISP.textContent = dispItems.join('');
+
         }  else if (dispItems[0] === '0' && dispItems[1] !== '.') {
             dispItems.shift(); // works if 0 pressed first
-        }  /*else if (event.target.textContent === '.') {
-            Decimal.disabled = true; //doesn't work
-        } else if (event.target.textContent.match(OPERATORS)) {
-            Decimal.disabled =false;
-        }*/
+        }  
 
 
         if (event.target.textContent === '=') {
