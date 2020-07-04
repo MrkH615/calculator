@@ -25,102 +25,70 @@
 //let nums = [100, 100, 10];// ok 90 
 
 
-let signs = ['-','-','/'];
-let nums = [12,6,25,5]; //expect 1 got 0 WHY?
-//let result; 
-//let len;
-//result === undefined ? len = nums.length : len = nums.length-1;  //always undefined here
+//let signs = ['-','-','/'];
+//let nums = [12,6,25,5]; //1 ok
 
-let numsToDrop;
-let firstMinus;
-signs[0] === '-' ? firstMinus = true : firstMinus = false;
+//let signs = ['+'];
+//let nums = [-5,-5]; //expect -10 ok
 
-for (let i=0; i <nums.length; i++)  {
-console.log(i);
+//let signs = ['-'];
+//let nums = [-5,-5]; //expect 0 ok
+
+let signs = ['*'];
+let nums = [-5,-5]; //expect 25 ok
+
+console.log('getResult '+getResult(signs, nums)+typeof getResult(['*'],[-5,-5]));
+
+
+function getResult(signs, nums){
+  let numsToDrop;
+while(nums.length > 1) {
+
+  for (let i=0; i <nums.length; i++)  {
   
-  //result === undefined ?  numsToDrop = 2 :  numsToDrop = 1;
-  //console.log('numsToDrop '+numsToDrop);
- 
-
- while(nums.length > 1) {
   switch(signs[i]) {
     case '*': 
-       console.log('i='+i); 
-       console.log('nums= '+ nums+'  signs='+signs);
-       //console.log('result ' + result + ` nums${i} ${nums[i]} nums${i+1} ${nums[i+1]}`);
        
-      //result === undefined ? result = Calculate[signs[i]](nums[i], nums[i+1]) : result = Calculate[signs[i]](result, nums[i]);
-      
-
       nums.splice(i,2, Calculate[signs[i]](nums[i],nums[i+1]));
-    
-     signs.splice(i,1);
-      
-      console.log('i after splice, before increment '+i);
-     
-      
+      signs.splice(i,1);
       i=i-2;
     break;
 
   case '/':
-       console.log('i= '+ i);
-        console.log('nums= '+ nums+'  signs='+signs);
-       console.log('result ' + result + ` nums${i} ${nums[i]} nums${i+1} ${nums[i+1]}`);
-       result === undefined ? result = Calculate[signs[i]](nums[i], nums[i+1]) : result = Calculate[signs[i]](result, nums[i+1]);
-      console.log('result ' + result + ` nums${i} ${nums[i]} nums${i+1} ${nums[i+1]}`);
-      console.log(`Deleting ${nums[i]} and ${nums[i+1]}`); //3
-      console.log(`Deleting ${signs[i]}  at index ${signs.indexOf(signs[i])}`);
-      nums.splice(i,2, Calculate[signs[i]](nums[i], nums[i+1]));
-     signs.splice(i,1);
-    
-     i=i-2;
-     break;
+   
+    nums.splice(i,2, Calculate[signs[i]](nums[i], nums[i+1]));
+    signs.splice(i,1);
+    i=i-2;
+  break;
   } 
   
 }
 
- console.log('nums ' + nums + ' signs '+signs+ '\n\n'); 
-
-console.log('after mult & divide '+nums + '\n\n'); 
-
-
-
 for (let j=0; j<nums.length; ++j) {
-  //result === undefined ?  numsToDrop = 2 :  numsToDrop = 1;
-
+ 
   switch(signs[j]) {
     
     case '+':
-       //console.log('result ' + result + ` nums ${nums} `);
-      //result === undefined ? result = Calculate[signs[j]](nums[j], nums[j+1]) : result = Calculate[signs[j]](result,nums[j]); 
-
-      nums.splice(j, Calculate[signs[j]](nums[j],nums[j+2],2));
+       
+      nums.splice(j, 2, Calculate[signs[j]](nums[j],nums[j+1]));
       signs.splice(j,1);
-
-       // console.log('result ' + result + ` nums$ ${nums}`);
-        //console.log('nums ' + nums + ' signs '+signs);
+      j=j-2;
+    break;
 
     case '-':
-      //console.log('result ' + result + ` nums${j} ${nums[j]} nums${j+1} ${nums[j+1]}`);
 
-      //result === undefined ? result = Calculate[signs[j]](nums[j], nums[j+1]) : firstMinus === true ? result = Calculate[signs[j]](nums[j], result) : result = Calculate[signs[j]](result,nums[j]); 
-
-      //result === undefined ? result = Calculate[signs[j]](nums[j], nums[j+1]) : signs[0] === '-' ? result = Calculate[signs[j]](nums[j], result) : result = Calculate[signs[j]](result,nums[j]); 
-
-      nums.splice(j, Calculate[signs[j]](nums[j], nums[j+1],2));
-     signs.splice(j,1);
-     j=j-2;
-      
-        //console.log('result ' + result + ` nums${j} ${nums[j]} nums${j+1} ${nums[j+1]}`);
-        //console.log('nums ' + nums + ' signs '+signs);
+      nums.splice(j, 2,Calculate[signs[j]](nums[j], nums[j+1]));
+      signs.splice(j,1);
+      j=j-2;
+     
     break;  
   }
 } 
+let result = nums;
+console.log('Final answer '+ result); 
+return result.toString();
 }
-
-let result = nums
-console.log('after add & subtract '+ result); 
-
+}
 
     </script>
 </html>
