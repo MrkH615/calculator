@@ -40,4 +40,6 @@ button {
     font-size: 1rem;
 }
 */
-
+button:disabled {
+    color: black;
+}

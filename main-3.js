@@ -11,6 +11,10 @@ const DISP = document.querySelector('#disp');
 
 const Decimal = document.querySelector('#decimal');
 
+const Operator = document.querySelectorAll('button.operator'); // getElementsByClassName
+
+const NUM = document.querySelectorAll('button.num');
+
 function putOnDisplay(){ 
 
     
@@ -23,7 +27,23 @@ function putOnDisplay(){
 
 //console.log(event.target.textContent);
 
+
         if(event.target.className !== 'correct') {
+
+            //disable operator buttons after operator button clicked
+            
+            if (event.target.textContent.match(OPERATORS)){  //works 
+            //if (event.target.className == '.operator') { //doesn't work - Why not?
+              Operator.forEach(operator => {operator.disabled = true}); 
+            }
+            
+            if (event.target.textContent.match(/[0-9]/)){ //works 
+            //if (event.target.className == '.num') { //doesn't work - Why not?
+              Operator.forEach(operator => {operator.disabled = false});
+            }
+            
+            
+            //enable operator buttons after number button clicked
           
            if (event.target.textContent === '.') {
                Decimal.disabled = true;
@@ -36,14 +56,14 @@ function putOnDisplay(){
             dispItems.push(event.target.textContent);
             DISP.textContent = dispItems.join('');
 
-        }  else if (event.target.textContent === 'C') {
+        }  else if (event.target.textContent === 'C') {  //why does this work here? - className = 'correct'
             dispItems = ['0'];
             DISP.textContent = dispItems.join('');
 
         }  else if (dispItems[0] === '0' && dispItems[1] !== '.') {
             dispItems.shift(); // works if 0 pressed first
         }  
-
+//code for backspace here?
 
         if (event.target.textContent === '=') {
            
@@ -65,9 +85,7 @@ function putOnDisplay(){
             DISP.textContent = dispItems;
 
             // equals ends
-        } 
-
-
+        } //code for backspace here?
 
     }));
 
@@ -132,7 +150,7 @@ function getResult(nums, signs){
            }
         } 
         let result = nums;
-        console.log('Final answer '+ result); 
+        //console.log('Final answer '+ result); 
         return result.toString();
       }
 }
