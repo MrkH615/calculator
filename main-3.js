@@ -15,6 +15,8 @@ const Operator = document.querySelectorAll('button.operator'); // getElementsByC
 
 const NUM = document.querySelectorAll('button.num');
 
+const Backspace = document.getElementById('#backspace'); //←
+
 function putOnDisplay(){ 
 
     
@@ -32,13 +34,13 @@ function putOnDisplay(){
 
             //disable operator buttons after operator button clicked
             
-            if (event.target.textContent.match(OPERATORS)){  //works 
-            //if (event.target.className == '.operator') { //doesn't work - Why not?
+            //if (event.target.textContent.match(OPERATORS)){  //works 
+            if (event.target.className == 'operator') { // works
               Operator.forEach(operator => {operator.disabled = true}); 
             }
             
-            if (event.target.textContent.match(/[0-9]/)){ //works 
-            //if (event.target.className == '.num') { //doesn't work - Why not?
+            //if (event.target.textContent.match(/[0-9]/)){ //works 
+            if (event.target.className == 'num') { //works
               Operator.forEach(operator => {operator.disabled = false});
             }
             
@@ -57,12 +59,16 @@ function putOnDisplay(){
             DISP.textContent = dispItems.join('');
 
         }  else if (event.target.textContent === 'C') {  //why does this work here? - className = 'correct'
-            dispItems = ['0'];
+            dispItems = ['0']; //sometimes? unexpected results if calculate after C pressed
             DISP.textContent = dispItems.join('');
 
         }  else if (dispItems[0] === '0' && dispItems[1] !== '.') {
             dispItems.shift(); // works if 0 pressed first
-        }  
+
+        }  else if (event.target.id === 'backspace') {
+          dispItems.pop();
+          DISP.textContent = dispItems.join('');
+        }
 //code for backspace here?
 
         if (event.target.textContent === '=') {
@@ -86,6 +92,15 @@ function putOnDisplay(){
 
             // equals ends
         } //code for backspace here?
+/*
+        Backspace.addEventListener('click', (e) => { //←
+          //Uncaught TypeError: can't access property "addEventListener", Backspace is null
+          dispItems.pop(); 
+          console.log(dispItems); 
+          DISP.textContent = dispItems.join('');
+        }); //doesn't work*/
+
+
 
     }));
 
