@@ -64,15 +64,19 @@ function putOnDisplay(){
 
         }  else if (dispItems[0] === '0' && dispItems[1] !== '.') {
             dispItems.shift(); // works if 0 pressed first
+            //leaves leading 0 after C pressed
 
-        }  else if (event.target.id === 'backspace') {
+        }  else if (event.target.id === 'backspace') { 
+          //works
+           
           dispItems.pop();
+          console.log(dispItems);
           DISP.textContent = dispItems.join('');
         }
 //code for backspace here?
 
         if (event.target.textContent === '=') {
-           
+           console.log(dispItems);
             let numsAndSigns =  splitAtSigns(dispItems);
             let nums = numsAndSigns['nums'];
             let signs = numsAndSigns['signs'];
@@ -84,11 +88,14 @@ function putOnDisplay(){
                 console.log(result);
                 DISP.textContent = result; */
 
-            let result = getResult(nums,signs);
-            dispItems=[]
-            dispItems.push(result);
-            console.log(dispItems);
-            DISP.textContent = dispItems;
+            let result = getResult(nums,signs);//.split('');
+            console.log('result is a '+typeof result); //with split -> object
+            dispItems=result; //seems to work
+            //dispItems.push(result);
+            console.log(dispItems+' '+typeof(dispItems));//object
+            //console.log(typeof dispItems[0]);//object-->strange
+            //console.log(dispItems.join(''));
+            DISP.textContent = dispItems.join('');
 
             // equals ends
         } //code for backspace here?
@@ -166,7 +173,7 @@ function getResult(nums, signs){
         } 
         let result = nums;
         //console.log('Final answer '+ result); 
-        return result.toString();
+        return result.toString().split('');
       }
 }
 
