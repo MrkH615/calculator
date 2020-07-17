@@ -36,12 +36,14 @@ function putOnDisplay(){
             
             //if (event.target.textContent.match(OPERATORS)){  //works 
             if (event.target.className == 'operator') { // works
-              Operator.forEach(operator => {operator.disabled = true}); 
+              Operator.forEach(operator => {
+                operator.disabled = true}); 
             }
             
             //if (event.target.textContent.match(/[0-9]/)){ //works 
             if (event.target.className == 'num') { //works
-              Operator.forEach(operator => {operator.disabled = false});
+              Operator.forEach(operator => {
+                operator.disabled = false});
             }
             
             
@@ -55,12 +57,21 @@ function putOnDisplay(){
                Decimal.disabled = false;
            }
 
+
+
             dispItems.push(event.target.textContent);
+            
+           if (event.target.textContent === '0' && dispItems[dispItems.indexOf('0')-1] === '÷') {
+             dispItems = ['ERROR!'];
+             Operator.forEach(btn => btn.disabled = true); 
+             NUM.forEach(btn => btn.disabled = true); 
+           }
             DISP.textContent = dispItems.join('');
 
         }  else if (event.target.textContent === 'C') {  //why does this work here? - className = 'correct'
             dispItems = ['0']; //sometimes? unexpected results if calculate after C pressed
             DISP.textContent = dispItems.join('');
+            btns.forEach(btn => btn.disabled = false);
 
         }  else if (dispItems[0] === '0' && dispItems[1] !== '.') {
             dispItems.shift(); // works if 0 pressed first
@@ -73,7 +84,7 @@ function putOnDisplay(){
           console.log(dispItems);
           DISP.textContent = dispItems.join('');
         }
-//code for backspace here?
+
 
         if (event.target.textContent === '=') {
            console.log(dispItems);
