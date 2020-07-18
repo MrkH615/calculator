@@ -58,11 +58,10 @@ function putOnDisplay(){
            }
 
 
-
             dispItems.push(event.target.textContent);
             
-           if (event.target.textContent === '0' && dispItems[dispItems.indexOf('0')-1] === '÷') {
-             dispItems = ['ERROR!'];
+           if (event.target.textContent === '0' || dispItems[dispItems.indexOf('0')] && dispItems[dispItems.indexOf('0')-1] === '÷') {
+             dispItems = ['ERROR!'];  //doesn't work if div by 0 occurs after C clicked
              Operator.forEach(btn => btn.disabled = true); 
              NUM.forEach(btn => btn.disabled = true); 
            }

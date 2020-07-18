@@ -3,7 +3,21 @@ div#calculator {
     border: .1rem solid black;
     padding: .5rem;
     padding-top: 1rem;
+    border-radius: 0.5rem;
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Artificial_wood_grain_texture.jpg/640px-Artificial_wood_grain_texture.jpg);
 
+}
+
+#model-name {
+     /*font-family: 'Ranchers', cursive;*/
+     /*font-family: 'Modak', cursive;*/
+     font-family: 'Fredoka One', cursive;
+     font-size: 1rem;
+    transform: scale(1, 1.3);
+    color: green;
+    width: auto;
+    padding-bottom: .3rem;
+    
 }
 /*
 #calulator {
@@ -16,33 +30,36 @@ div#calculator {
 
 #disp {
     width: 10rem;
-    height: 1.2rem;
+    height: 1.6rem;
     background-color: black;
     color: red;
     font-family: 'VT323', monospace;
     font-size: 1.4rem;
+    border-radius: 0.5rem;
 }
 
 
 #buttons {
+    padding-top: .7rem;
     width: 10rem;
     display: grid;
     grid-template-columns: auto auto auto auto;
     grid-template-rows: auto auto auto auto auto;
-    /*align-content: space-evenly;   doesn't seem to have an effect*/ 
+   /* align-content: space-evenly;   doesn't seem to have an effect*/ 
 }
 
 button {
     cursor: pointer;
+    color: #f58742;
     /*padding: 1px;*/
     margin: 0.1rem;
-    /*border-radius: 0.2rem;*/
+    border-radius: 0.5rem;
 }
-
+/* makes all buttons in this row bigger
 #backspace{
-    font-size: 1rem;
+    font-size: 1.2rem;  
 }
-
+*/
 button:disabled {
     color: black;
 }
