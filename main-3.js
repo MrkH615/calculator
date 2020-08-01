@@ -1,10 +1,14 @@
-const OPERATORS = /[×÷+*\/-]/g;
+const OPERATORS = /[–×÷+*\/-]/g;
 
 const Calculate = {
-    '×': (a,b) => a * b,
-    '÷': (a,b) => a / b,
-    '+': (a,b) => a + b,
-    '-': (a,b) => a - b
+  '–': (a) => {console.log('b in negative function is ' + a); return a * -1}, //call with b =-1, key is en dash U+2013 &#x2013; &#8211;
+  //a in '–' is 0???, regardless of whether neg number is first number or second number entered
+  //With '–': (a,b) a is 0, b undefined
+  '×': (a,b) => a * b,
+  '÷': (a,b) => a / b,
+  '+': (a,b) => a + b,
+  '-': (a,b) => a - b,
+   
 }
 
 const DISP = document.querySelector('#disp');
@@ -32,6 +36,10 @@ function putOnDisplay(){
 
         if(event.target.className !== 'correct') {
 
+          if (dispItems[0] === '0' && dispItems[1] !== '.') {
+            dispItems.shift();
+          }
+
             //disable operator buttons after operator button clicked
             
             //if (event.target.textContent.match(OPERATORS)){  //works 
@@ -45,6 +53,11 @@ function putOnDisplay(){
               Operator.forEach(operator => {
                 operator.disabled = false});
             }
+
+            /*if (event.target.textContent === "⁺⁄₋") { //textContent still displayed later
+              dispItems.push('-');
+              //dispItems.pop();
+            }*/
             
             
             //enable operator buttons after number button clicked
@@ -58,27 +71,41 @@ function putOnDisplay(){
            }
 
 
-            dispItems.push(event.target.textContent);
+           event.target.textContent === "⁺⁄₋" ? dispItems.push('–') : dispItems.push(event.target.textContent);  
+          //NOT A  MINUS SIGN pushed val is en dash U+2013  &ndash; &#x2013; &#8211;
+           /*dividing 2 negative 
+           numbers results in infinity
+           usually on a calculator, input number and then ⁺⁄₋, so put *-1 in dispItems and - in DISP.textContent
+           also require at least 1 num to come before neg sign?*/
+           
+
+           //dispItems.push(event.target.textContent);
             
-           if (event.target.textContent === '0' || dispItems[dispItems.indexOf('0')] && dispItems[dispItems.indexOf('0')-1] === '÷') {
-             dispItems = ['ERROR!'];  //doesn't work if div by 0 occurs after C clicked
+           if (event.target.textContent === '0' && dispItems[dispItems.indexOf('0') -1] === '÷' || dispItems[dispItems.indexOf('0')] && dispItems[dispItems.indexOf('0')-1] === '÷') {
+            dispItems = ['ERROR!'];  //if C clicked here other error messages are still displayed
              Operator.forEach(btn => btn.disabled = true); 
              NUM.forEach(btn => btn.disabled = true); 
+             if (event.target.textContent === 'C') {
+               dispItems = clear();
+               DISP.textContent = dispItems.join(''); //displays 0, but then setTimeout()s run
+               clearTimeout(); //doesn't make a difference here
+             } //end of clear
+             setTimeout(() => {  //if C clicked here other error messages are still displayed
+               DISP.textContent = ['Division by 0'];
+             }, 2000);
+             setTimeout(() => {
+               DISP.textContent = ['Click C to clear'];
+             }, 4000); //need to wait until here for C to work
            }
+
             DISP.textContent = dispItems.join('');
 
         }  else if (event.target.textContent === 'C') {  //why does this work here? - className = 'correct'
-            dispItems = ['0']; //sometimes? unexpected results if calculate after C pressed
+            dispItems = ['0'];
             DISP.textContent = dispItems.join('');
             btns.forEach(btn => btn.disabled = false);
 
-        }  else if (dispItems[0] === '0' && dispItems[1] !== '.') {
-            dispItems.shift(); // works if 0 pressed first
-            //leaves leading 0 after C pressed
-
-        }  else if (event.target.id === 'backspace') { 
-          //works
-           
+        }   else if (event.target.id === 'backspace') {  
           dispItems.pop();
           console.log(dispItems);
           DISP.textContent = dispItems.join('');
@@ -126,12 +153,24 @@ function putOnDisplay(){
 putOnDisplay();
 
 function splitAtSigns(arr) {
-  arr.pop(); //removes equals sign
+        console.log('dispArr in splitAtSigns = ' + arr);
+        arr.pop(); //removes equals sign
         let arrStr = arr.join('');
         let signs = Array.from(arrStr.matchAll(OPERATORS), sgn => sgn[0]); 
+        console.log('signs ' + signs);
+        //need condition to handle '–'
+        console.log('arrStr.split(OPERATORS) = ' + arrStr.split(OPERATORS));//.replace(/^,/,'')
+        console.log(typeof arrStr.split(OPERATORS));//object
+        console.log('arrStr.split(OPERATORS).join("") with spread is' + [...arrStr.split(OPERATORS).join('')]); //no commas
+        //if start with neg number then arrStr.split(OPERATORS) begins with a comma
+         //Does nums assume a number before and after each operator?
+        //neg number always give extra comma
         let nums = arrStr.split(OPERATORS).map(nmbr => Number(nmbr)); //change nums from strings into nums
+        //let nums = [...arrStr.split(OPERATORS).join('')].map(nmbr => Number(nmbr)); //change nums from strings into nums
+        //This gives extra commas even with pos numbers if working with results of calculation after = clicked
+        console.log('nums '+ nums);
         let numsAndSigns = {};
-        numsAndSigns['nums'] = nums;
+        numsAndSigns['nums'] = nums; // 
         numsAndSigns['signs'] = signs;
 
     return numsAndSigns;         
@@ -140,6 +179,16 @@ function splitAtSigns(arr) {
 function getResult(nums, signs){
       let numsToDrop;
       while(nums.length > 1) {
+
+        for (let k=0; k<nums.length; k++){
+          switch(signs[k]) {
+            case '–': 
+              nums.splice(k,1, Calculate[signs[k]](nums[k]));
+              signs.splice(k,1);
+              console.log(`nums in neg switch ${nums}`);
+              console.log(`signs in neg switch ${signs}`);
+          }
+        }
       
         for (let i=0; i <nums.length; i++)  {
         
@@ -188,5 +237,15 @@ function getResult(nums, signs){
 }
 
 
+function clear() {
+  dispItems = ['0'];
+  DISP.textContent = dispItems.join('');
+  btns.forEach(btn => btn.disabled = false);
+  return dispItems;
+}
+
+function sparseToDense (arr) {
+  return arr.filter(()=>true);
+}
 
 
