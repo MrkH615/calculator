@@ -1,14 +1,15 @@
-const OPERATORS = /[–×÷+*\/-]/g;
+//const OPERATORS = /[–×÷+*\/-]/g;
+const OPERATORS = /[×÷+*\/-]/g;
+const Neg = /[–]/g;
 
 const Calculate = {
-  '–': (a) => {console.log('b in negative function is ' + a); return a * -1}, //call with b =-1, key is en dash U+2013 &#x2013; &#8211;
+  //'–': (a,b) => a * -b, //call with b =-1, key is en dash U+2013 &#x2013; &#8211;
   //a in '–' is 0???, regardless of whether neg number is first number or second number entered
   //With '–': (a,b) a is 0, b undefined
   '×': (a,b) => a * b,
   '÷': (a,b) => a / b,
   '+': (a,b) => a + b,
-  '-': (a,b) => a - b,
-   
+  '-': (a,b) => a - b,  
 }
 
 const DISP = document.querySelector('#disp');
@@ -158,17 +159,16 @@ function splitAtSigns(arr) {
         let arrStr = arr.join('');
         let signs = Array.from(arrStr.matchAll(OPERATORS), sgn => sgn[0]); 
         console.log('signs ' + signs);
-        //need condition to handle '–'
+        
         console.log('arrStr.split(OPERATORS) = ' + arrStr.split(OPERATORS));//.replace(/^,/,'')
         console.log(typeof arrStr.split(OPERATORS));//object
-        console.log('arrStr.split(OPERATORS).join("") with spread is' + [...arrStr.split(OPERATORS).join('')]); //no commas
-        //if start with neg number then arrStr.split(OPERATORS) begins with a comma
-         //Does nums assume a number before and after each operator?
-        //neg number always give extra comma
-        let nums = arrStr.split(OPERATORS).map(nmbr => Number(nmbr)); //change nums from strings into nums
-        //let nums = [...arrStr.split(OPERATORS).join('')].map(nmbr => Number(nmbr)); //change nums from strings into nums
-        //This gives extra commas even with pos numbers if working with results of calculation after = clicked
-        console.log('nums '+ nums);
+      
+        //nums = arrStr.split(OPERATORS).map(nmbr => Number(nmbr)); //change nums from strings into nums
+        //let nums = arrStr.split(OPERATORS);//.map(nmbr => Number(nmbr)); //change nums from strings into nums
+        let nums = arrStr.split(OPERATORS)
+                         .map(num => num.replace(Neg, '-'))
+                         .map(num => Number(num));
+        console.log('nums '+ nums); //undefined
         let numsAndSigns = {};
         numsAndSigns['nums'] = nums; // 
         numsAndSigns['signs'] = signs;
@@ -183,7 +183,7 @@ function getResult(nums, signs){
         for (let k=0; k<nums.length; k++){
           switch(signs[k]) {
             case '–': 
-              nums.splice(k,1, Calculate[signs[k]](nums[k]));
+              nums.splice(k,1, Calculate[signs[k]](nums[k], 1));
               signs.splice(k,1);
               console.log(`nums in neg switch ${nums}`);
               console.log(`signs in neg switch ${signs}`);

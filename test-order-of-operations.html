@@ -13,7 +13,7 @@
   '/': (a,b) => a/b,
   '+': (a,b) => a+b,
   '-': (a,b) => a-b,
-  '–': (a) => a * -1 //U+2013 en dash &ndash; &#x2013; &#8211;
+  '–': (a,b) => a * -b //U+2013 en dash &ndash; &#x2013; &#8211;
   }
   
 //let signs = ['+', '*', '-']; //
@@ -44,11 +44,11 @@
 //let signs = ['/'];
 //let nums = [-5,-5];  //expect 1 ok
 
-let signs = ['–','*'];
-let nums = [8,1];
+let signs = ['–','*','–']; //expect 25 ok
+let nums = [5,5]; //expect 25 ok
 
-console.log('getResult '+getResult(signs, nums)+typeof getResult(['/'],[-5,-5]));
-//issue is with how splitAtSigns() interacts with getResults()
+console.log('getResult '+getResult(signs, nums)+typeof getResult(['–','*','–'],[5,5]));
+//issue is with how splitAtSigns(), or just with split at signs interacts with getResults()
 
 function getResult(signs, nums){
   let numsToDrop;
@@ -57,7 +57,7 @@ while(nums.length > 1) {
   for (let k=0; k<nums.length; k++){
     switch(signs[k]) {
       case '–': 
-        nums.splice(k,1, Calculate[signs[k]](nums[k]));
+        nums.splice(k,1, Calculate[signs[k]](nums[k],1));
         signs.splice(k,1);
         console.log('nums inside  switch for neg numbers '+ nums); //-8,1
     }
