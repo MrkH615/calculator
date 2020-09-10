@@ -3,9 +3,7 @@ const OPERATORS = /[×÷+*\/-]/g;
 const Neg = /[–]/g;
 
 const Calculate = {
-  //'–': (a,b) => a * -b, //call with b =-1, key is en dash U+2013 &#x2013; &#8211;
-  //a in '–' is 0???, regardless of whether neg number is first number or second number entered
-  //With '–': (a,b) a is 0, b undefined
+ 
   '×': (a,b) => a * b,
   '÷': (a,b) => a / b,
   '+': (a,b) => a + b,
@@ -74,12 +72,8 @@ function putOnDisplay(){
 
            event.target.textContent === "⁺⁄₋" ? dispItems.push('–') : dispItems.push(event.target.textContent);  
           //NOT A  MINUS SIGN pushed val is en dash U+2013  &ndash; &#x2013; &#8211;
-           /*dividing 2 negative 
-           numbers results in infinity
-           usually on a calculator, input number and then ⁺⁄₋, so put *-1 in dispItems and - in DISP.textContent
-           also require at least 1 num to come before neg sign?*/
            
-
+  
            //dispItems.push(event.target.textContent);
             
            if (event.target.textContent === '0' && dispItems[dispItems.indexOf('0') -1] === '÷' || dispItems[dispItems.indexOf('0')] && dispItems[dispItems.indexOf('0')-1] === '÷') {
@@ -145,8 +139,6 @@ function putOnDisplay(){
           DISP.textContent = dispItems.join('');
         }); //doesn't work*/
 
-
-
     }));
 
 }    
@@ -180,16 +172,6 @@ function getResult(nums, signs){
       let numsToDrop;
       while(nums.length > 1) {
 
-        for (let k=0; k<nums.length; k++){
-          switch(signs[k]) {
-            case '–': 
-              nums.splice(k,1, Calculate[signs[k]](nums[k], 1));
-              signs.splice(k,1);
-              console.log(`nums in neg switch ${nums}`);
-              console.log(`signs in neg switch ${signs}`);
-          }
-        }
-      
         for (let i=0; i <nums.length; i++)  {
         
           switch(signs[i]) {

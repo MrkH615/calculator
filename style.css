@@ -68,3 +68,10 @@ button {
 button:disabled {
     color: #f58742;
 }
+
+button#equals {
+    /*grid-column: 3/ 5;*/
+        grid-column: 4;
+        grid-row: 4/ 6;
+
+}
