@@ -4,8 +4,8 @@ div#calculator {
     padding: .5rem;
     padding-top: 1rem;
     border-radius: 0.5rem;
-    background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Artificial_wood_grain_texture.jpg/640px-Artificial_wood_grain_texture.jpg);
-
+   /* background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Artificial_wood_grain_texture.jpg/640px-Artificial_wood_grain_texture.jpg);*/
+    background-image: url(640px-Artificial_wood_grain_texture.jpg);
 }
 
 #model-name {
