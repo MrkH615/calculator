@@ -1,3 +1,26 @@
+body {
+    background-image: linear-gradient(to bottom right, green, burlywood);
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+calculator-container {
+    position: relative;
+}
+
+.absolute-center {
+    width: 50%;
+    height: 50%;
+    overflow: auto;
+    margin: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
 div#calculator {
     width: 165px; 
     border: .1rem solid black;
