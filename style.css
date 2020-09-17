@@ -1,9 +1,16 @@
 body {
-    background-image: linear-gradient(to bottom right, green, burlywood);
-    height: 100vh;
-    overflow: hidden;
+    /*background-image: linear-gradient(to bottom right, green, burlywood);*/
+    background-color: #968e35;
 }
 
+header {
+    background-image: url(640px-Artificial_wood_grain_texture.jpg);
+    background-clip: text;
+    color: transparent;
+    text-align: center;
+}
+
+/* absolute-center idea courtesy of shshaw */
 
 calculator-container {
     position: relative;
@@ -40,7 +47,8 @@ div#calculator {
     color: green;
     width: auto;
     padding-bottom: .3rem;
-    
+     text-align: center;
+
 }
 /*
 #calulator {
