@@ -92,17 +92,19 @@ button {
 }
 
 /* makes all buttons in this row bigger
-#backspace{
+button#backspace{
     font-size: 1.2rem;  
-}
-*/
+}*/
+
 button:disabled {
-    color: #f58742;
+  color: #f58742;
 }
 
 button#equals {
-    /*grid-column: 3/ 5;*/
-        grid-column: 4;
-        grid-row: 4/ 6;
+  grid-column: 4;
+  grid-row: 4/ 6;
+}
 
+#disp.error {
+  font-size: 0.7rem;
 }
