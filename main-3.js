@@ -14,90 +14,79 @@ const DISP = document.querySelector('#disp');
 
 const Decimal = document.querySelector('#decimal');
 
-const Operator = document.querySelectorAll('button.operator'); // getElementsByClassName
+const Operator = document.querySelectorAll('button.operator'); 
 
 const NUM = document.querySelectorAll('button.num');
 
-const Backspace = document.getElementById('#backspace'); //←
+const Backspace = document.getElementById('#backspace'); 
 
 function putOnDisplay(){ 
 
-    
-    let dispItems = [];
+  let dispItems = [];
+  let result;
 
-    let result;
+  let btns = document.querySelectorAll('button');
+  btns.forEach(btn => btn.addEventListener('click', event => {
 
-    let btns = document.querySelectorAll('button');
-    btns.forEach(btn => btn.addEventListener('click', event => {
+    if(event.target.className !== 'correct') {
 
-        if(event.target.className !== 'correct') {
-
-          if (dispItems[0] === '0' && dispItems[1] !== '.') {
-            dispItems.shift();
-          }
+      if (dispItems[0] === '0' && dispItems[1] !== '.') {
+        dispItems.shift();
+      }
             
-            //if (event.target.textContent.match(OPERATORS)){  //works 
-            if (event.target.className == 'operator') { // works
-              Operator.forEach(operator => {
-                operator.disabled = true}); 
-            }
-            
-            //if (event.target.textContent.match(/[0-9]/)){ //works 
-            if (event.target.className == 'num') { //works
-              Operator.forEach(operator => {
-                operator.disabled = false});
-            }
+      if (event.target.className == 'operator') { 
+        Operator.forEach(operator => {
+          operator.disabled = true}); 
+      }
+             
+      if (event.target.className == 'num') { 
+        Operator.forEach(operator => {
+          operator.disabled = false});
+      }
           
-           if (event.target.textContent === '.') {
-               Decimal.disabled = true;
-           } 
+      if (event.target.textContent === '.') {
+        Decimal.disabled = true;
+      } 
            
-           if (event.target.textContent.match(OPERATORS)) { 
-               Decimal.disabled = false;
-           }
+      if (event.target.textContent.match(OPERATORS)) { 
+        Decimal.disabled = false;
+      }
 
-
-           event.target.textContent === "⁺⁄₋" ? dispItems.push('–') : dispItems.push(event.target.textContent);  
+      //event.target.textContent === "⁺⁄₋" ? dispItems.push('–') : dispItems.push(event.target.textContent);  
           //en dash, not minus sign   &#x2013; &#8211;
+
+      event.target.textContent === "⁺⁄₋" ? dispItems = negSign(dispItems) : dispItems.push(event.target.textContent); 
            
-           if (event.target.textContent === '0' && dispItems[dispItems.indexOf('0') -1] === '÷' 
-           || dispItems[dispItems.indexOf('0')] && dispItems[dispItems.indexOf('0')-1] === '÷') {  
-             Operator.forEach(btn => btn.disabled = true); 
-             NUM.forEach(btn => btn.disabled = true); 
-             dispItems = ['ERROR! C = clear'];
+      if (event.target.textContent === '0' && dispItems[dispItems.indexOf('0') -1] === '÷' 
+      || dispItems[dispItems.indexOf('0')] && dispItems[dispItems.indexOf('0')-1] === '÷') {  
+        Operator.forEach(btn => btn.disabled = true); 
+        NUM.forEach(btn => btn.disabled = true); 
+        dispItems = ['ERROR! C = clear'];
     
-           } 
+      } 
 
-            DISP.textContent = dispItems.join('');
+      DISP.textContent = dispItems.join('');
 
-        }  else if (event.target.textContent === 'C') {  //why does this work here? - className = 'correct'
+      }  else if (event.target.textContent === 'C') {  //why does this work here? - className = 'correct'
             dispItems = ['0'];
             DISP.textContent = dispItems.join('');
             btns.forEach(btn => btn.disabled = false);
 
-        }   else if (event.target.id === 'backspace') {  
+      } else if (event.target.id === 'backspace') {  
           dispItems.pop();
-          console.log(dispItems);
           DISP.textContent = dispItems.join('');
-        }
-
-
-        if (event.target.textContent === '=') {
-           console.log(dispItems);
-            let numsAndSigns =  splitAtSigns(dispItems);
-            let nums = numsAndSigns['nums'];
-            let signs = numsAndSigns['signs'];
+      }
+      
+      if (event.target.textContent === '=') {
            
-
-            let result = getResult(nums,signs);//.split('');
-            console.log('result is a '+typeof result); //with split -> object
-            dispItems=result; //seems to work
+        let numsAndSigns =  splitAtSigns(dispItems);
+        let nums = numsAndSigns['nums'];
+        let signs = numsAndSigns['signs'];
+        let result = getResult(nums,signs);
+        dispItems=result; 
+        DISP.textContent = dispItems.join('');
             
-            console.log(dispItems+' '+typeof(dispItems));//object
-            DISP.textContent = dispItems.join('');
-
-            // equals ends
-        } 
+      } 
 
     }));
 
@@ -164,11 +153,9 @@ function getResult(nums, signs){
            }
         } 
         let result = nums;
-        //console.log('Final answer '+ result); 
         return result.toString().split('');
       }
 }
-
 
 function clear() {
   console.log('clear()');
@@ -182,6 +169,24 @@ function clear() {
   return dispItems;
 }
 
+function negSign(dispItems) { 
 
+  console.log('in NegSign');
+  dispItems.push('–');
+  let dispString = dispItems.join('');
+  let signPos;
+  let negPos = dispItems.indexOf(dispString.match(Neg)[0]);
+
+  for (let i = negPos; i >= 0; i--) {  //get operator preceeding Neg
+    if (dispString.match(OPERATORS)) {
+       signPos = i;
+    }
+  }
+
+dispItems.splice(signPos-1, 0, '–'); //put Neg in front of negative number
+dispItems.pop();
+return dispItems;
+
+}
 
 

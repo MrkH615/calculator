@@ -1,5 +1,5 @@
 body {
-    /*background-image: linear-gradient(to bottom right, green, burlywood);*/
+
     background-color: #968e35;
 }
 
@@ -34,30 +34,19 @@ div#calculator {
     padding: .5rem;
     padding-top: 1rem;
     border-radius: 0.5rem;
-   /* background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Artificial_wood_grain_texture.jpg/640px-Artificial_wood_grain_texture.jpg);*/
-    background-image: url(640px-Artificial_wood_grain_texture.jpg);
+    background-image: url(640px-Artificial_wood_grain_texture.jpg); /*from https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Artificial_wood_grain_texture.jpg/640px-Artificial_wood_grain_texture.jpg);*/
 }
 
 #model-name {
-     /*font-family: 'Ranchers', cursive;*/
-     /*font-family: 'Modak', cursive;*/
-     font-family: 'Fredoka One', cursive;
-     font-size: 1rem;
-    transform: scale(1, 1.3);
-    color: green;
-    width: auto;
-    padding-bottom: .3rem;
-     text-align: center;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1rem;
+  transform: scale(1, 1.3);
+  color: green;
+  width: auto;
+  padding-bottom: .3rem;
+  text-align: center;
 
 }
-/*
-#calulator {
-    width: 165px;
-    height: auto;
-    /*border: 5px solid black;*/
-   /* padding: 1rem;
-}
-*/
 
 #disp {
     width: 10rem;
@@ -74,14 +63,9 @@ div#calculator {
     padding-top: .7rem;
     width: 10rem;
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /*had 4 columns size auto*/
-    grid-template-rows: repeat(5, 1fr);  /* had 5 rows size auto*/
-   /* align-content: space-evenly;   doesn't seem to have an effect*/ 
+    grid-template-columns: repeat(4, 1fr); 
+    grid-template-rows: repeat(5, 1fr);  
 }
-
-/*button#zero {
-    grid-template-rows: 2fr; 
-}*/
 
 button {
     cursor: pointer;
@@ -90,11 +74,6 @@ button {
     margin: 0.1rem;
     border-radius: 0.5rem;
 }
-
-/* makes all buttons in this row bigger
-button#backspace{
-    font-size: 1.2rem;  
-}*/
 
 button:disabled {
   color: #f58742;
