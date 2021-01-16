@@ -70,7 +70,6 @@ div#calculator {
 button {
     cursor: pointer;
     color: #f58742;
-    /*padding: 1px;*/
     margin: 0.1rem;
     border-radius: 0.5rem;
 }
