@@ -175,33 +175,18 @@ function negSign(dispItems) { //doesn't work for 1st # entered in calculator
   //dispItems.push('–');
   let dispString = dispItems.join('');
   let allOps = dispString.match(OPERATORS);
-  let lastOp = allOps[allOps.length - 1];
-  let lastOpPos = dispItems.indexOf(lastOp);
+  //If allOps === null, put '–' at start of dispItems and return dispItems, else use following code
+  if (allOps === null) {
+    dispItems.splice(0, 0, '–');
+  } else {
+    let lastOp = allOps[allOps.length - 1];
+    let lastOpPos = dispItems.indexOf(lastOp);
+  
 
+  dispItems.splice(lastOpPos + 1, 0, '–'); //at leftside only
+  console.log(`dispItems in negSign is ${dispItems}`);
+  }
 
-  /*let signPos;
-  let negPos = dispItems.indexOf(dispString.match(Neg)[0]); //without [0], en dash at very beginning 
-  let allOperatorsPos = dispString.matchAll(OPERATORS);
-  console.log(allOperatorsPos);//[0]undefined
-  for (let anOp of allOperatorsPos) { //shows operators
-    console.log('for of '+anOp); 
-  }*/
-  /*
-    if (dispString.match(OPERATORS)) { 
-     
-      console.log(dispString.match(OPERATORS)[0]); //without [0], en dash at very beginning 
-      
-       signPos  = dispItems.indexOf(dispString.match(OPERATORS)[0]);//without [0], en dash at very beginning 
-       console.log('signPos '+ signPos); //always same value
-       //if no operator, no signPos b/c of if
-       //if 2 ops same, neg at beg and right after sign
-    }
-*/
-
-dispItems.splice(lastOpPos + 1, 0, '–'); //at leftside only
-//dispItems.splice(signPos+1, 0, '–');
-//dispItems.pop();
-console.log(`dispItems in negSign is ${dispItems}`);
 return dispItems;
 
 }
