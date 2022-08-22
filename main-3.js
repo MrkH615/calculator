@@ -92,6 +92,7 @@ function putOnDisplay(){
 
 }    
 
+//after result displayed, have any number key clear display
 putOnDisplay();
 
 function splitAtSigns(arr) {
@@ -109,7 +110,7 @@ function splitAtSigns(arr) {
 }
 
 function getResult(nums, signs){
-  let numsToDrop;
+  
   while(nums.length > 1) {
 
     for (let i=0; i <nums.length; i++)  {
