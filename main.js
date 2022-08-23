@@ -18,9 +18,40 @@ function operate(operator, num1, num2) {
   return operator(num1, num2);
 }
 
+//1. make event listeners, at least for numbers and operators
+function makeButtonValues() { 
+  const btns = document.querySelectorAll('button');
+  let dispArr = [];
+  let btnInfo;
+
+  btns.forEach((btn)=> {
+    if (btn.class !=='correct') {
+      btn.addEventListener('click', (event) => {
+        btnInfo = event.target.textContent;
+        console.log(btnInfo);
+        dispArr.push(btnInfo);
+        console.log(dispArr);
+      } //close eventListener function
+    ); //close event listener
+    } //close if
+   }); //close forEach
+
+  } //close makeButtonValues
+
+
+  
+function putInDispArr(event) {
+  btnInfo = event.target.textContent;
+  console.log(btnInfo);
+  dispArr.push(btnInfo);
+  console.log(dispArr);
+}
+
+makeButtonValues();
+
 /*
-1. store num1, sign, num2 in display array as string
-2. when any operator or equals pressed
+2. store num1, sign, num2 in display array as string
+3. when any operator or equals pressed
       a. perform operation 
       b. display result
       c. set num1 to result
