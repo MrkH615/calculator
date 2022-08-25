@@ -54,13 +54,20 @@ function putInDispArr(event, dispArr) {
   console.log(btnInfo);
   dispArr.push(btnInfo);
   console.log(dispArr);
-  //return dispArr;
+  writeToDisplay(dispArr);
+  return dispArr;
+}
+
+function writeToDisplay(dispArr) {
+  const disp = document.querySelector('#disp');
+  disp.textContent = dispArr.join('');
 }
 
 makeButtonValues();
 
 /*
 2. store num1, sign, num2 in display array as string
+3. write dispArr as string to display 
 3. when any operator or equals pressed
       a. perform operation 
       b. display result
