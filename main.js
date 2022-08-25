@@ -1,3 +1,5 @@
+'use strict';
+
 function add(num1, num2) {
   return num1 + num2;
 }
@@ -21,9 +23,15 @@ function operate(operator, num1, num2) {
 //1. make event listeners, at least for numbers and operators
 function makeButtonValues() { 
   const btns = document.querySelectorAll('button');
-  let dispArr = [];
-  let btnInfo;
+  const dispArr = [];
+  //const btnInfo;
 
+  btns.forEach((btn) => {if (btn.class !== 'correct') {
+    btn.addEventListener('click', (event) => putInDispArr(event, dispArr));
+    }
+  });
+  //console.log('dispArr', dispArr);//not defined
+/*
   btns.forEach((btn)=> {
     if (btn.class !=='correct') {
       btn.addEventListener('click', (event) => {
@@ -35,16 +43,18 @@ function makeButtonValues() {
     ); //close event listener
     } //close if
    }); //close forEach
-
+*/
   } //close makeButtonValues
 
 
   
-function putInDispArr(event) {
-  btnInfo = event.target.textContent;
+function putInDispArr(event, dispArr) {
+  //let dispArr = [];
+  let btnInfo = event.target.textContent;
   console.log(btnInfo);
   dispArr.push(btnInfo);
   console.log(dispArr);
+  //return dispArr;
 }
 
 makeButtonValues();
