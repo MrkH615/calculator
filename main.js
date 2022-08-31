@@ -1,5 +1,11 @@
 'use strict';
 
+//const operators = /[+-x÷*\/-]/g; //this also gets numbers '=' is the reason!!
+//need to get anything that's not a number and not C or backspace char
+
+//const operators = /[+-x÷*\/]/g; // with match, gets everything but the operator
+const operators = /[+\-x÷]/g; // need to escape - because it's a special character
+
 function add(num1, num2) {
   return num1 + num2;
 }
@@ -26,10 +32,12 @@ function makeButtonValues() {
   const dispArr = [];
   //const btnInfo;
 
-  btns.forEach((btn) => {if (btn.class !== 'correct') {
+  btns.forEach((btn) =>  { 
+    console.log('button class', btn.class);
     btn.addEventListener('click', (event) => putInDispArr(event, dispArr));
+    
     }
-  });
+  );
   //console.log('dispArr', dispArr);//not defined
 /*
   btns.forEach((btn)=> {
@@ -54,6 +62,12 @@ function putInDispArr(event, dispArr) {
   console.log(btnInfo);
   dispArr.push(btnInfo);
   console.log(dispArr);
+  if (dispArr.join('').includes('=')) {
+    parseDispArr(dispArr);
+  }
+  /*if (operators.test(dispArr.join(''))) {
+     parseDispArr(dispArr);
+  }*/
   writeToDisplay(dispArr);
   return dispArr;
 }
@@ -63,16 +77,34 @@ function writeToDisplay(dispArr) {
   disp.textContent = dispArr.join('');
 }
 
-makeButtonValues();
+// 1. parse dispArr into numbers and signs as soon as '=' or second operator clicked
 
-/*
-2. store num1, sign, num2 in display array as string
-3. write dispArr as string to display 
-3. when any operator or equals pressed
+function parseDispArr(dispArr) {
+  let dispStr = dispArr.join('');
+  console.log(operators);
+  //let operatorsAndNums = [];
+  //find operator  and put in nums and signs
+  let operatorsAndNums = dispStr.match(operators);//just a copy of dispArr
+  //operatorsAndNums.push(dispStr.match(operators)); //everything nested
+  console.log('operatorsAndNums is', operatorsAndNums);
+  //find everything before and ""
+  //find everything after and ""
+}
+/*      
+2. when any operator or equals pressed
       a. perform operation 
       b. display result
       c. set num1 to result
       d. clear num2
       e. return to step 1
+
+3. do not push '=' or buttons of class 'correct' to dispArr
 */
+
+
+
+
+makeButtonValues();
+
+
 
