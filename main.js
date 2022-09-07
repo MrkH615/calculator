@@ -4,7 +4,7 @@
 //need to get anything that's not a number and not C or backspace char
 
 //const operators = /[+-x÷*\/]/g; // with match, gets everything but the operator
-const operators = /[+\-x÷]/g; // need to escape - because it's a special character
+const operators = /[+\-×÷]/g; // need to escape - because it's a special character
 
 function add(num1, num2) {
   return num1 + num2;
@@ -84,10 +84,20 @@ function parseDispArr(dispArr) {
   console.log(operators);
   //let operatorsAndNums = [];
   //find operator  and put in nums and signs
-  let operatorsAndNums = dispStr.match(operators);//just a copy of dispArr
+  let operatorAndNums = dispStr.match(operators); 
   //operatorsAndNums.push(dispStr.match(operators)); //everything nested
-  console.log('operatorsAndNums is', operatorsAndNums);
-  //find everything before and ""
+  console.log('operatorsAndNums is', operatorAndNums);
+  //find everything before and "" 
+  let operatorIndex = dispStr.indexOf(operatorAndNums[0]); //finds operator
+  /* TODO 
+  split dispStr before operatorIndex 
+  or slice dispArr*/
+  let nums = dispStr.split(operatorAndNums[0]);
+  console.log('nums', nums); //need to not put '=' in dispArr
+  //and push into operatorsAndNums */
+  operatorAndNums.push(...nums); // works, 1 op, 2 nums -- 2nd has equals
+  console.log('operatorAndNums', operatorAndNums);
+  // use while loop or regex lookbehind? --> everything before and after operator should be number
   //find everything after and ""
 }
 /*      
