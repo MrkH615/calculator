@@ -82,23 +82,13 @@ function writeToDisplay(dispArr) {
 function parseDispArr(dispArr) {
   let dispStr = dispArr.join('');
   console.log(operators);
-  //let operatorsAndNums = [];
-  //find operator  and put in nums and signs
   let operatorAndNums = dispStr.match(operators); 
-  //operatorsAndNums.push(dispStr.match(operators)); //everything nested
   console.log('operatorsAndNums is', operatorAndNums);
-  //find everything before and "" 
-  let operatorIndex = dispStr.indexOf(operatorAndNums[0]); //finds operator
-  /* TODO 
-  split dispStr before operatorIndex 
-  or slice dispArr*/
   let nums = dispStr.split(operatorAndNums[0]);
   console.log('nums', nums); //need to not put '=' in dispArr
-  //and push into operatorsAndNums */
   operatorAndNums.push(...nums); // works, 1 op, 2 nums -- 2nd has equals
   console.log('operatorAndNums', operatorAndNums);
-  // use while loop or regex lookbehind? --> everything before and after operator should be number
-  //find everything after and ""
+  return operatorAndNums;
 }
 /*      
 2. when any operator or equals pressed
