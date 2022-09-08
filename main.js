@@ -59,16 +59,33 @@ function makeButtonValues() {
 function putInDispArr(event, dispArr) {
   //let dispArr = [];
   let btnInfo = event.target.textContent;
-  console.log(btnInfo);
+  //console.log(btnInfo);
+
+  switch (btnInfo) {
+    case '=':
+      console.log(btnInfo);
+      parseDispArr(dispArr);
+      break;
+    case 'C':
+    case '←':
+      console.log(btnInfo);
+      break;
+    default:
+      console.log(btnInfo);
+      dispArr.push(btnInfo);  
+      writeToDisplay(dispArr);
+  }
+/*
   dispArr.push(btnInfo);
   console.log(dispArr);
   if (dispArr.join('').includes('=')) {
     parseDispArr(dispArr);
   }
+  */
   /*if (operators.test(dispArr.join(''))) {
      parseDispArr(dispArr);
   }*/
-  writeToDisplay(dispArr);
+  //writeToDisplay(dispArr);
   return dispArr;
 }
 
