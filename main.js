@@ -26,7 +26,6 @@ function operate(operator, num1, num2) {
   return operator(num1, num2);
 }
 
-//1. make event listeners, at least for numbers and operators
 function makeButtonValues() { 
   const btns = document.querySelectorAll('button');
   const dispArr = [];
@@ -60,11 +59,14 @@ function putInDispArr(event, dispArr) {
   //let dispArr = [];
   let btnInfo = event.target.textContent;
   //console.log(btnInfo);
-
+  let result;
   switch (btnInfo) {
     case '=':
       console.log(btnInfo);
-      parseDispArr(dispArr);
+      let [operator, num1, num2] = parseDispArr(dispArr); //returns operatorAndNums
+      console.log(operator, 'num1',num1,'num2', num2);
+      //result = calculate(dispArr);
+      //console.log('result', result);
       break;
     case 'C':
     case '←':
@@ -96,14 +98,14 @@ function writeToDisplay(dispArr) {
 
 // 1. parse dispArr into numbers and signs as soon as '=' or second operator clicked
 
-function parseDispArr(dispArr) {
+function parseDispArr(dispArr) { //called by putInDisplay()
   let dispStr = dispArr.join('');
   console.log(operators);
   let operatorAndNums = dispStr.match(operators); 
   console.log('operatorsAndNums is', operatorAndNums);
   let nums = dispStr.split(operatorAndNums[0]);
-  console.log('nums', nums); //need to not put '=' in dispArr
-  operatorAndNums.push(...nums); // works, 1 op, 2 nums -- 2nd has equals
+  console.log('nums', nums);
+  operatorAndNums.push(...nums);
   console.log('operatorAndNums', operatorAndNums);
   return operatorAndNums;
 }
@@ -117,7 +119,24 @@ function parseDispArr(dispArr) {
 
 3. do not push '=' or buttons of class 'correct' to dispArr
 */
-
+function calculate(dispArr) {
+  let [operator, num1, num2] = parseDisplayArray(dispArr);
+  let result;
+  switch (operator) {
+    case '+':
+      result = operate(add, num1, num2);
+      break;
+    case '-':
+      result = operate(subtract, num1, num2);
+      break;
+    case '×':
+      result = operate(multiply, num1, num2);
+      break;
+    case '÷':
+      result = operate(divide, num1, num2);
+      break;
+  }
+}
 
 
 
