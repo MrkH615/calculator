@@ -63,10 +63,10 @@ function putInDispArr(event, dispArr) {
   switch (btnInfo) {
     case '=':
       console.log(btnInfo);
-      let [operator, num1, num2] = parseDispArr(dispArr); //returns operatorAndNums
-      console.log(operator, 'num1',num1,'num2', num2);
-      //result = calculate(dispArr);
-      //console.log('result', result);
+      //let [operator, num1, num2] = parseDispArr(dispArr); //returns operatorAndNums
+      //console.log(operator, 'num1',num1,'num2', num2);
+      result = calculate(dispArr); //not all nums passed pushed to disp array
+      console.log('result', result);
       break;
     case 'C':
     case '←':
@@ -77,7 +77,7 @@ function putInDispArr(event, dispArr) {
       dispArr.push(btnInfo);  
       writeToDisplay(dispArr);
   }
-/*
+/* 
   dispArr.push(btnInfo);
   console.log(dispArr);
   if (dispArr.join('').includes('=')) {
@@ -98,12 +98,13 @@ function writeToDisplay(dispArr) {
 
 // 1. parse dispArr into numbers and signs as soon as '=' or second operator clicked
 
-function parseDispArr(dispArr) { //called by putInDisplay()
+function parseDisplayArray(dispArr) { //called by putInDisplay()
   let dispStr = dispArr.join('');
   console.log(operators);
   let operatorAndNums = dispStr.match(operators); 
   console.log('operatorsAndNums is', operatorAndNums);
-  let nums = dispStr.split(operatorAndNums[0]);
+  let nums = dispStr.split(operatorAndNums[0])
+                    .map(num => Number(num));
   console.log('nums', nums);
   operatorAndNums.push(...nums);
   console.log('operatorAndNums', operatorAndNums);
@@ -117,7 +118,7 @@ function parseDispArr(dispArr) { //called by putInDisplay()
       d. clear num2
       e. return to step 1
 
-3. do not push '=' or buttons of class 'correct' to dispArr
+
 */
 function calculate(dispArr) {
   let [operator, num1, num2] = parseDisplayArray(dispArr);
@@ -135,7 +136,10 @@ function calculate(dispArr) {
     case '÷':
       result = operate(divide, num1, num2);
       break;
-  }
+  } 
+
+  console.log(result); //concatenates with add
+  return result;
 }
 
 
