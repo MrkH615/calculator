@@ -55,7 +55,7 @@ function makeButtonValues() {
 
 
   
-function putInDispArr(event, dispArr) {
+function putInDispArr(event, dispArr) { //called by event listener in makeButtonValues()
   //let dispArr = [];
   let btnInfo = event.target.textContent;
   //console.log(btnInfo);
@@ -67,6 +67,7 @@ function putInDispArr(event, dispArr) {
       //console.log(operator, 'num1',num1,'num2', num2);
       result = calculate(dispArr); //not all nums passed pushed to disp array
       console.log('result', result);
+      writeToDisplay([`${result}`]);
       break;
     case 'C':
     case '←':
@@ -138,11 +139,9 @@ function calculate(dispArr) {
       break;
   } 
 
-  console.log(result); //concatenates with add
+  console.log(result); 
   return result;
 }
-
-
 
 makeButtonValues();
 
