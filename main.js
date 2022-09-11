@@ -67,7 +67,11 @@ function putInDispArr(event, dispArr) { //called by event listener in makeButton
       //console.log(operator, 'num1',num1,'num2', num2);
       result = calculate(dispArr); //not all nums passed pushed to disp array
       console.log('result', result);
-      writeToDisplay([`${result}`]);
+      dispArr.length=0;
+      dispArr.push(result);
+      writeToDisplay(dispArr); 
+      //displays result, but replace with previous numbers and sign one other operator clicked
+      //putInDispArr('click', [`${result}`]);
       break;
     case 'C':
     case '←':
@@ -139,7 +143,7 @@ function calculate(dispArr) {
       break;
   } 
 
-  console.log(result); 
+  console.log('calculate result',result); 
   return result;
 }
 
