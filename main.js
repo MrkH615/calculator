@@ -37,20 +37,7 @@ function makeButtonValues() {
     
     }
   );
-  //console.log('dispArr', dispArr);//not defined
-/*
-  btns.forEach((btn)=> {
-    if (btn.class !=='correct') {
-      btn.addEventListener('click', (event) => {
-        btnInfo = event.target.textContent;
-        console.log(btnInfo);
-        dispArr.push(btnInfo);
-        console.log(dispArr);
-      } //close eventListener function
-    ); //close event listener
-    } //close if
-   }); //close forEach
-*/
+
   } //close makeButtonValues
 
 
@@ -63,17 +50,17 @@ function putInDispArr(event, dispArr) { //called by event listener in makeButton
   switch (btnInfo) {
     case '=':
       console.log(btnInfo);
-      //let [operator, num1, num2] = parseDispArr(dispArr); //returns operatorAndNums
-      //console.log(operator, 'num1',num1,'num2', num2);
-      result = calculate(dispArr); //not all nums passed pushed to disp array
+      result = calculate(dispArr); 
       console.log('result', result);
       dispArr.length=0;
       dispArr.push(result);
       writeToDisplay(dispArr); 
-      //displays result, but replace with previous numbers and sign one other operator clicked
-      //putInDispArr('click', [`${result}`]);
       break;
     case 'C':
+      dispArr.length=0;
+      dispArr.push('0');
+      writeToDisplay(dispArr);
+      break;
     case '←':
       console.log(btnInfo);
       break;
@@ -101,8 +88,6 @@ function writeToDisplay(dispArr) {
   disp.textContent = dispArr.join('');
 }
 
-// 1. parse dispArr into numbers and signs as soon as '=' or second operator clicked
-
 function parseDisplayArray(dispArr) { //called by putInDisplay()
   let dispStr = dispArr.join('');
   console.log(operators);
@@ -115,16 +100,7 @@ function parseDisplayArray(dispArr) { //called by putInDisplay()
   console.log('operatorAndNums', operatorAndNums);
   return operatorAndNums;
 }
-/*      
-2. when any operator or equals pressed
-      a. perform operation 
-      b. display result
-      c. set num1 to result
-      d. clear num2
-      e. return to step 1
 
-
-*/
 function calculate(dispArr) {
   let [operator, num1, num2] = parseDisplayArray(dispArr);
   let result;
