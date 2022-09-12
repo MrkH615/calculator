@@ -57,12 +57,17 @@ function putInDispArr(event, dispArr) { //called by event listener in makeButton
       writeToDisplay(dispArr); 
       break;
     case 'C':
-      dispArr.length=0;
-      dispArr.push('0');
+      //dispArr.length=0;
+      //dispArr.push('0');
+      clearDisplayArray(dispArr);
       writeToDisplay(dispArr);
       break;
     case '←':
       console.log(btnInfo);
+      console.log(dispArr);
+      //remove final element of dispArr;
+      backspace(dispArr);
+      writeToDisplay(dispArr);
       break;
     default:
       console.log(btnInfo);
@@ -121,6 +126,29 @@ function calculate(dispArr) {
 
   console.log('calculate result',result); 
   return result;
+}
+
+function clearDisplayArray(dispArr) {
+  dispArr.length = 0;
+  dispArr.push('0');
+  return dispArr;
+}
+
+function backspace(dispArr) {
+  
+  //let len = dispArr.length
+  switch (dispArr.length) {
+    case 1:
+      dispArr[0].length = dispArr[0].slice(0, dispArr[0].length - 1);
+      //when dispArr= result, dispArr[0].slice is not a function (line 142)
+      break;
+    default:
+      dispArr[dispArr.length - 1] = dispArr[dispArr.length -1 ].slice(0, 
+        dispArr[dispArr.length-1].length - 1);
+        //works before = pressed
+  }
+  console.log('dispArr',dispArr); 
+  return dispArr;
 }
 
 makeButtonValues();
