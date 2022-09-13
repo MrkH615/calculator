@@ -136,16 +136,14 @@ function clearDisplayArray(dispArr) {
 
 function backspace(dispArr) {
   
-  //let len = dispArr.length
+  console.log('dispArr in backspace()', dispArr);
   switch (dispArr.length) {
-    case 1:
-      dispArr[0].length = dispArr[0].slice(0, dispArr[0].length - 1);
-      //when dispArr= result, dispArr[0].slice is not a function (line 142)
+    case 1:  //this is a number, not a string
+      dispArr[0] = ~~(dispArr[0]/10);  
       break;
-    default:
-      dispArr[dispArr.length - 1] = dispArr[dispArr.length -1 ].slice(0, 
-        dispArr[dispArr.length-1].length - 1);
-        //works before = pressed
+    default: 
+    //if there are 2 numbers separated by operator, dispArr contains only strings
+      dispArr.pop();  
   }
   console.log('dispArr',dispArr); 
   return dispArr;
